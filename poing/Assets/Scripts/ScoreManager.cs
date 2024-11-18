@@ -34,3 +34,4 @@ public class ScoreManager : MonoBehaviour
         scoreText2.text = score2.ToString();
     }
 }
+

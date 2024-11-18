@@ -105,10 +105,10 @@ MonoBehaviour:
     value: 0.5
   clamp:
     overrideState: 1
-    value: 65472
+    value: 65472.16
   diffusion:
     overrideState: 1
-    value: 7
+    value: 9.28
   anamorphicRatio:
     overrideState: 1
     value: 0
