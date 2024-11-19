@@ -8,11 +8,17 @@ public class Ball : MonoBehaviour
     private float currentSpeed;
     private Rigidbody2D rb;
     private ScoreManager scoreManager;
+    private AudioSource collisionAudioSource;
+    private AudioSource triggerAudioSource;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         scoreManager = FindObjectOfType<ScoreManager>();
+        // Get the two AudioSources attached to the ball
+        AudioSource[] audioSources = GetComponents<AudioSource>();
+        collisionAudioSource = audioSources[0];
+        triggerAudioSource = audioSources[1];
         currentSpeed = initialSpeed;
         LaunchBallWithDelay();
     }
@@ -63,6 +69,9 @@ public class Ball : MonoBehaviour
         }
 
         rb.velocity = newVelocity;
+
+        // Play collision sound
+        collisionAudioSource.Play();
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -72,5 +81,8 @@ public class Ball : MonoBehaviour
             scoreManager.AddScore(other.gameObject.tag);
             ResetBall();
         }
+
+        // Play trigger sound
+        triggerAudioSource.Play();
     }
 }
