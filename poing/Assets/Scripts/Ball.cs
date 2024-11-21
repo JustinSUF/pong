@@ -25,8 +25,11 @@ public class Ball : MonoBehaviour
 
     void LaunchBall()
     {
-        Vector2 randomDirection = new Vector2(Random.Range(-1f, 1f), Random.Range(-0.5f, 0.5f)).normalized;
-        rb.velocity = randomDirection * currentSpeed;
+        if (!scoreManager.gameOver)
+        {
+            Vector2 randomDirection = new Vector2(Random.Range(-1f, 1f), Random.Range(-0.5f, 0.5f)).normalized;
+            rb.velocity = randomDirection * currentSpeed;
+        }
     }
 
     void LaunchBallWithDelay()
@@ -51,27 +54,30 @@ public class Ball : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        // Increment the speed by 0.5
-        currentSpeed += 0.5f;
-
-        // Apply a slight random adjustment to the current velocity
-        Vector2 randomAdjustment = new Vector2(Random.Range(-0.1f, 0.1f), Random.Range(-0.1f, 0.1f));
-        Vector2 newVelocity = (rb.velocity + randomAdjustment).normalized * currentSpeed;
-
-        // Ensure significant horizontal and vertical movement
-        if (Mathf.Abs(newVelocity.x) < 0.5f)
+        if (!scoreManager.gameOver)
         {
-            newVelocity.x = Mathf.Sign(newVelocity.x) * 0.5f;
-        }
-        if (Mathf.Abs(newVelocity.y) < 0.5f)
-        {
-            newVelocity.y = Mathf.Sign(newVelocity.y) * 0.5f;
-        }
+            // Increment the speed by 0.5
+            currentSpeed += 0.5f;
 
-        rb.velocity = newVelocity;
+            // Apply a slight random adjustment to the current velocity
+            Vector2 randomAdjustment = new Vector2(Random.Range(-0.1f, 0.1f), Random.Range(-0.1f, 0.1f));
+            Vector2 newVelocity = (rb.velocity + randomAdjustment).normalized * currentSpeed;
 
-        // Play collision sound
-        collisionAudioSource.Play();
+            // Ensure significant horizontal and vertical movement
+            if (Mathf.Abs(newVelocity.x) < 0.5f)
+            {
+                newVelocity.x = Mathf.Sign(newVelocity.x) * 0.5f;
+            }
+            if (Mathf.Abs(newVelocity.y) < 0.5f)
+            {
+                newVelocity.y = Mathf.Sign(newVelocity.y) * 0.5f;
+            }
+
+            rb.velocity = newVelocity;
+
+            // Play collision sound
+            collisionAudioSource.Play();
+        }
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -79,7 +85,15 @@ public class Ball : MonoBehaviour
         if (other.gameObject.tag == "Goal1" || other.gameObject.tag == "Goal2")
         {
             scoreManager.AddScore(other.gameObject.tag);
-            ResetBall();
+            if (!scoreManager.gameOver)
+            {
+                ResetBall();
+            }
+            else
+            {
+                rb.velocity = Vector2.zero;
+                transform.position = Vector3.zero;
+            }
         }
 
         // Play trigger sound
