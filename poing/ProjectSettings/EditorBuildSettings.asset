@@ -11,4 +11,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Game.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/Underwater.unity
+    guid: 23600606c5fa1004f9fad1bfa8febf0f
+  - enabled: 1
+    path: Assets/Scenes/FB Mode.unity
+    guid: b29430f771ae9e24fb1e46881084721e
+  - enabled: 1
+    path: Assets/Scenes/3 in 1.unity
+    guid: 243c998338b64d2479eb6db769c58c6d
   m_configObjects: {}
